@@ -21,11 +21,12 @@ typedef struct
     int quantidade;
 } Livro;
 
-void Cadastrar_Livros(int *N, Livro *l)
+void Cadastrar_Livros(int N, Livro *l)
 {
 
-    for (int i = 0; i < *N; i++)
+    for (int i = 0; i < N; i++)
     {
+        printf("\n");
         printf("Código: ");
         scanf("%d", &l[i].codigo);
         getchar();
@@ -47,14 +48,68 @@ void Cadastrar_Livros(int *N, Livro *l)
     }
 }
 
-void Listar_Livros(int *N, Livro *l)
+void Listar_Livros(int N, Livro *l)
 {
-    for (int i = 0; i < *N; i++)
+    for (int i = 0; i < N; i++)
     {
-        printf("Código: %d", l[i].codigo);
-        printf("Título: %s", l[i].titulo);
-        printf("Autor: %s", l[i].autor);
-        printf("Ano de publicação: %d", l[i].ano);
-        printf("Quantidade dispónivel: %d", l[i].ano);
+        printf("\nCódigo: %d", l[i].codigo);
+printf("\nTítulo: %s", l[i].titulo);
+        printf("\nAutor: %s", l[i].autor);
+        printf("\nAno de publicação: %d", l[i].ano);
+        printf("\nQuantidade dispónivel: %d", l[i].ano);
+        printf("\n");
     }
+}
+
+void Buscar_Livro( int N, livro *l)
+{
+    
+    printf("Buscar livro: ");
+    scanf()
+    
+    
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int main()
+{
+    int N;
+    
+    
+    printf("Digite o valor de N: ");
+    scanf("%d", &N);
+    
+    Livro  *l = malloc(N * sizeof(Livro));
+    
+    Cadastrar_Livros(N, l);
+    Listar_Livros(N, l);
+    
+    
+    
+    
 }
