@@ -53,7 +53,7 @@ void Listar_Livros(int N, Livro *l)
     for (int i = 0; i < N; i++)
     {
         printf("\nCódigo: %d", l[i].codigo);
-printf("\nTítulo: %s", l[i].titulo);
+        printf("\nTítulo: %s", l[i].titulo);
         printf("\nAutor: %s", l[i].autor);
         printf("\nAno de publicação: %d", l[i].ano);
         printf("\nQuantidade dispónivel: %d", l[i].ano);
@@ -61,55 +61,43 @@ printf("\nTítulo: %s", l[i].titulo);
     }
 }
 
-void Buscar_Livro( int N, livro *l)
+void Buscar_Livro(int N, Livro *l)
 {
-    
-    printf("Buscar livro: ");
-    scanf()
-    
-    
-    
+    char encontrado[100];
+    int achado = 0;
+
+    getchar();
+    printf("\nBuscar livro (título ou autor): ");
+    fgets(encontrado, 100, stdin);
+    encontrado[strcspn(encontrado, "\n")] = '\0';
+
+    for (int i = 0; i < N; i++)
+    {
+        if (strcmp(l[i].titulo, encontrado) == 0 || (strcmp(l[i].autor, encontrado)) == 0)
+        {
+
+            printf("Titulos encontrados: ");
+            printf("Código: %d\n", l[i].codigo);
+            printf("Título: %s\n", l[i].titulo);
+            printf("Autor: %s\n", l[i].autor);
+            printf("Ano de publicação: %d\n", l[i].ano);
+            printf("Quantidade disponível: %d\n", l[i].quantidade);
+            achado = 1;
+            break;
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int main()
 {
     int N;
-    
-    
+
     printf("Digite o valor de N: ");
     scanf("%d", &N);
-    
-    Livro  *l = malloc(N * sizeof(Livro));
-    
+
+    Livro *l = malloc(N * sizeof(Livro));
+
     Cadastrar_Livros(N, l);
     Listar_Livros(N, l);
-    
-    
-    
-    
+    Buscar_Livro(N, l);
 }
