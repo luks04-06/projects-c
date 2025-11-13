@@ -57,7 +57,7 @@ void Listar_Livros(int N, Livro *l)
         printf("\nTítulo: %s", l[i].titulo);
         printf("\nAutor: %s", l[i].autor);
         printf("\nAno de publicação: %d", l[i].ano);
-        printf("\nQuantidade dispónivel: %d", l[i].ano);
+        printf("\nQuantidade dispónivel: %d", l[i].quantidade);
         printf("\n");
     }
 }
@@ -96,7 +96,7 @@ typedef struct
     char data[20]; // dd/mm/aaaa
 } Emprestimo;
 
-void Registrar_Emprestimo(Emprestimo *le)
+void Registrar_Emprestimo(Emprestimo *le, Livro *l, int N)
 {
 
     time_t agora;
@@ -115,15 +115,34 @@ void Registrar_Emprestimo(Emprestimo *le)
 
     strftime(le->data, 20, "%d/%m/%Y %H:%M:%S", info);
 
-    printf("\nEmpréstimo registrado:\n");
-    printf("Livro: %d\n", le->codigoLivro);
-    printf("Leitor: %s\n", le->nomeLeitor);
-    printf("Data/Hora: %s\n", le->data);
+    int achou = 0;
+
+    for (int i = 0; i < N; i++)
+    {
+        if (l[i].codigo == le->codigoLivro)
+        {
+            achou = 1;
+            if (l[i].quantidade > 0)
+            {
+                l[i].quantidade--;
+                printf("\nEmpréstimo registrado!\n");
+            }
+            else
+            {
+                printf("\nLivro indisponível para emprestimo.\n");
+            }
+
+            printf("Leitor: %s\n", le->nomeLeitor);
+            printf("Data/Hora: %s\n", le->data);
+            return;
+        }
+    }
+
+    if (!achou)
+    {
+        printf("\nLivro não encontrado!\n");
+    }
 }
-
-
-
-
 
 int main()
 {
@@ -139,5 +158,5 @@ int main()
     Cadastrar_Livros(N, l);
     Listar_Livros(N, l);
     Buscar_Livro(N, l);
-    Registrar_Emprestimo(&le);
+    Registrar_Emprestimo(&le, l, N);
 }
