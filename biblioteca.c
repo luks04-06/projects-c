@@ -87,6 +87,8 @@ void Buscar_Livro(int N, Livro *l)
             break;
         }
     }
+    if (!achado)
+        printf("\nNenhum livro encontrado!\n");
 }
 
 typedef struct
@@ -102,7 +104,7 @@ void Registrar_Emprestimo(Emprestimo *le, Livro *l, int N)
     time_t agora;
     struct tm *info;
 
-    printf("\nCódigo do Livro: ");
+    printf("\nCódigo do Livro para emprestimo: ");
     scanf("%d", &le->codigoLivro);
     getchar();
 
@@ -133,7 +135,7 @@ void Registrar_Emprestimo(Emprestimo *le, Livro *l, int N)
             }
 
             printf("Leitor: %s\n", le->nomeLeitor);
-            printf("Data/Hora: %s\n", le->data);
+            printf("Data/Hora do Emprestimo: %s\n", le->data);
             return;
         }
     }
@@ -144,19 +146,90 @@ void Registrar_Emprestimo(Emprestimo *le, Livro *l, int N)
     }
 }
 
+void Devolver_Emprestimo(Emprestimo *le, Livro *l, int N)
+{
+    int achou = 0;
+
+    printf("\nCódigo do Livro para devolução: ");
+    scanf("%d", &le->codigoLivro);
+    getchar();
+
+    for (int i = 0; i < N; i++)
+    {
+        if (l[i].codigo == le->codigoLivro)
+        {
+            achou = 1;
+            l[i].quantidade++;
+            printf("\nDevolução realizada\n");
+            printf("Livro %d devolvido.\n", le->codigoLivro);
+            return;
+        }
+    }
+
+    if (!achou)
+    {
+        printf("Livro não encontrado. Não é possível realizar a devolução\n");
+    }
+}
+
 int main()
 {
-    int N;
-    Limpar_Tela();
-    printf("Digite o valor de N: ");
+    int N, opcao;
+
+    printf("Digite quantos livros deseja cadastrar: ");
     scanf("%d", &N);
 
     Livro *l = malloc(N * sizeof(Livro));
-
     Emprestimo le;
 
     Cadastrar_Livros(N, l);
-    Listar_Livros(N, l);
-    Buscar_Livro(N, l);
-    Registrar_Emprestimo(&le, l, N);
+
+    while (1)
+    {
+        Limpar_Tela(); 
+
+        printf("\n===== MENU PRINCIPAL =====\n");
+        printf("1 - Listar Livros\n");
+        printf("2 - Buscar Livro\n");
+        printf("3 - Registrar Empréstimo\n");
+        printf("4 - Registrar Devolução\n");
+        printf("5 - Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);
+
+        switch (opcao)
+        {
+        case 1:
+            Listar_Livros(N, l);
+            printf("\nPressione ENTER para voltar...");
+            getchar();
+            getchar();
+            break;
+
+        case 2:
+            Buscar_Livro(N, l);
+            printf("\nPressione ENTER para voltar...");
+            getchar();
+            getchar();
+            break;
+
+        case 3:
+            Registrar_Emprestimo(&le, l, N);
+            printf("\nPressione ENTER para voltar...");
+            getchar();
+            getchar();
+            break;
+
+        case 4:
+            Devolver_Emprestimo(&le, l, N);
+            printf("\nPressione ENTER para voltar...");
+            getchar();
+            getchar();
+            break;
+
+        case 5:
+            free(l);
+            exit(0);
+        }
+    }
 }
