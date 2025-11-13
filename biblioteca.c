@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <time.h>
 
 void Limpar_Tela()
 {
@@ -76,7 +77,7 @@ void Buscar_Livro(int N, Livro *l)
         if (strcmp(l[i].titulo, encontrado) == 0 || (strcmp(l[i].autor, encontrado)) == 0)
         {
 
-            printf("Titulos encontrados: ");
+            printf("Titulos encontrados: \n");
             printf("Código: %d\n", l[i].codigo);
             printf("Título: %s\n", l[i].titulo);
             printf("Autor: %s\n", l[i].autor);
@@ -88,16 +89,55 @@ void Buscar_Livro(int N, Livro *l)
     }
 }
 
+typedef struct
+{
+    int codigoLivro;
+    char nomeLeitor[100];
+    char data[20]; // dd/mm/aaaa
+} Emprestimo;
+
+void Registrar_Emprestimo(Emprestimo *le)
+{
+
+    time_t agora;
+    struct tm *info;
+
+    printf("\nCódigo do Livro: ");
+    scanf("%d", &le->codigoLivro);
+    getchar();
+
+    printf("Digite seu nome: ");
+    fgets(le->nomeLeitor, 100, stdin);
+    le->nomeLeitor[strcspn(le->nomeLeitor, "\n")] = '\0';
+
+    time(&agora);
+    info = localtime(&agora);
+
+    strftime(le->data, 20, "%d/%m/%Y %H:%M:%S", info);
+
+    printf("\nEmpréstimo registrado:\n");
+    printf("Livro: %d\n", le->codigoLivro);
+    printf("Leitor: %s\n", le->nomeLeitor);
+    printf("Data/Hora: %s\n", le->data);
+}
+
+
+
+
+
 int main()
 {
     int N;
-
+    Limpar_Tela();
     printf("Digite o valor de N: ");
     scanf("%d", &N);
 
     Livro *l = malloc(N * sizeof(Livro));
 
+    Emprestimo le;
+
     Cadastrar_Livros(N, l);
     Listar_Livros(N, l);
     Buscar_Livro(N, l);
+    Registrar_Emprestimo(&le);
 }
